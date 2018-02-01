@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
@@ -38,7 +39,22 @@ public class Practice09MatrixRotateView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        Matrix matrix1 = new Matrix();
+        float bitMapWidth = bitmap.getWidth();
+        float bitMapHeight = bitmap.getHeight();
+
+        canvas.save();
+        matrix1.reset();
+        matrix1.setRotate(180, point1.x + bitMapWidth/2, point1.y + bitMapHeight/2);
+        canvas.concat(matrix1);
         canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
+        canvas.restore();
+
+        canvas.save();
+        matrix1.reset();
+        matrix1.setRotate(45, point2.x + bitMapWidth/2, point2.y + bitMapHeight/2);
+        canvas.concat(matrix1);
         canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
+        canvas.restore();
     }
 }

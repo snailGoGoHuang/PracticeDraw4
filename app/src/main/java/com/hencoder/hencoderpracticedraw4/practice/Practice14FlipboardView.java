@@ -72,8 +72,20 @@ public class Practice14FlipboardView extends View {
         int x = centerX - bitmapWidth / 2;
         int y = centerY - bitmapHeight / 2;
 
+        // 第一遍绘制：上半部分,
+        canvas.save();
+        canvas.clipRect(0, 0, getWidth(), centerY); //整个上半部分屏幕
+        canvas.drawBitmap(bitmap, x, y, paint); //没有任何旋转, 只是静态裁切.
+        canvas.restore();
+
+        // 第二遍绘制：下半部分
         canvas.save();
 
+        if (degree < 90) {
+            canvas.clipRect(0, centerY, getWidth(), getHeight()); //整个下半部分屏幕: 旋转方向类似从南极到北极, < 90°, 向上翻页的效果
+        } else {
+            canvas.clipRect(0, 0, getWidth(), centerY); //整个上半部分屏幕: 旋转方向类似从南极到北极, > 90°, 向下翻页的效果
+        }
         camera.save();
         camera.rotateX(degree);
         canvas.translate(centerX, centerY);
@@ -81,7 +93,7 @@ public class Practice14FlipboardView extends View {
         canvas.translate(-centerX, -centerY);
         camera.restore();
 
-        canvas.drawBitmap(bitmap, x, y, paint);
+        canvas.drawBitmap(bitmap, x, y, paint); //旋转一定角度后, 裁切.
         canvas.restore();
     }
 }

@@ -39,7 +39,19 @@ public class Practice02ClipPathView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        canvas.save();
+        Path path1 = new Path();
+        path1.addCircle(point1.x + 200,point1.y + 200, 150, Path.Direction.CW);
+        canvas.clipPath(path1);
         canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
+        canvas.restore();
+
+        canvas.save();
+        Path path2 = new Path();
+        path2.setFillType(Path.FillType.INVERSE_WINDING); //反转效果
+        path2.addCircle(point2.x + 200, point2.y + 200, 150, Path.Direction.CW);
+        canvas.clipPath(path2);
         canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
+        canvas.restore();
     }
 }
